@@ -13,8 +13,8 @@ setup(
         "teascan": ["models/*", "teascan_icon.ico"],  # Explicitly include 'models' and the icon
     },
     install_requires=[
-        "torch",
-        "torchvision",
+        "torch==2.0.1",  
+        "torchvision==0.15.2",
         "numpy",
         "pillow",
         "scikit-learn",
