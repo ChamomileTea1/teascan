@@ -14,6 +14,8 @@ setup(
     },
     install_requires=[
         
+          "torch==2.5.1",
+        "torchvision==2.5.1",
         "scikit-learn==1.6.0",
         "joblib==1.4.2",
         "opencv-python==4.10.0.84",
