@@ -1,7 +1,7 @@
 TeaScan v1.0
 Developed by: Samuel Moloney
 
-=======IMPORTANT=======
+
 Due to the difficulties of ensuring compatibles versions of torch and torch vision,
 which are required for the machine learning model, these should be installed manually.
 
