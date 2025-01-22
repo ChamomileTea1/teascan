@@ -1,0 +1,6 @@
+# MANIFEST.in
+
+include README.md
+include LICENSE
+recursive-include teascan/models *
+include teascan/teascan_icon.ico
