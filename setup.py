@@ -14,8 +14,7 @@ setup(
     },
     install_requires=[
         
-        "torch==2.5.1+cpu @ https://download.pytorch.org/whl/cpu/torch-2.5.1+cpu-cp39-cp39-win_amd64.whl",
-        "torchvision==0.16.1+cpu @ https://download.pytorch.org/whl/cpu/torchvision-0.16.1+cpu-cp39-cp39-win_amd64.whl",
+       
         "scikit-learn==1.6.0",
         "joblib==1.4.2",
         "opencv-python==4.10.0.84",
