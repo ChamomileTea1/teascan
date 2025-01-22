@@ -1,6 +1,19 @@
 TeaScan v1.0
 Developed by: Samuel Moloney
 
+=======IMPORTANT=======
+Due to the difficulties of ensuring compatibles versions of torch and torch vision,
+which are required for the machine learning model, these should be installed manually.
+
+This can be done by visiting [PyTorch.org](https://pytorch.org/get-started/locally/) and selecting
+- Your OS (Windows, Linux, or macOS)
+- Your Package: `pip`
+- Language: `Python`
+- Clatform: `CPU` (or a specific CUDA version like `cu118` if you wish to utilises your GPU)
+
+Then run the suggested installation command, for example:
+pip install torch==2.5.1 torchvision==0.16.1 --index-url https://download.pytorch.org/whl/cpu
+=======================
 
 This tool classifies executables as Malware or Benign using machine learning models.
 It provides additional information such as MD5 hashes and VirusTotal analysis results, if you provide your
