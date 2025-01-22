@@ -721,14 +721,7 @@ def main():
     loading_thread.start()
 
 
-# Check and install torch dynamically
-try:
-    import torch
-except ImportError:
-    print("Torch not found. Installing...")
-    import subprocess
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "torch==2.5.1"])
-    import torch  # Re-import after installation
+
 
     try:
         # Simulate initialization (e.g., load resources)
