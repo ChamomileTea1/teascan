@@ -13,14 +13,15 @@ setup(
         "teascan": ["models/*", "teascan_icon.ico"],  # Explicitly include 'models' and the icon
     },
     install_requires=[
-        "torch==2.0.1",  
-        "torchvision==0.15.2",
-        "numpy",
-        "pillow",
-        "scikit-learn",
-        "opencv-python",
-        "pefile",
-        "requests",
+        "torch==2.5.1",
+        "torchvision==2.5.1",
+        "scikit-learn==1.6.0",
+        "joblib==1.4.2",
+        "opencv-python==4.10.0.84",
+        "Pillow==11.0.0",
+        "pefile==2023.2.7",
+        "numpy==1.26.4",
+        "requests==2.32.3",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
