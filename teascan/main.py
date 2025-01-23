@@ -27,6 +27,19 @@ from sklearn.feature_extraction.text import CountVectorizer
 import cv2  # Ensure cv2 is installed: pip install opencv-python
 import pefile  # Ensure pefile is installed: pip install pefile
 
+def install_torch_if_missing():
+    try:
+        import torch
+    except ImportError:
+        print("Torch not found. Installing...")
+        subprocess.check_call([
+            sys.executable, "-m", "pip", "install",
+            "torch==2.5.1",
+            "torchvision==0.16.1",
+            "--index-url", "https://download.pytorch.org/whl/cpu"
+        ])
+        import torch  # Re-import after installation
+
 def show_initializing_spinner():
     import itertools
     import time
@@ -715,7 +728,8 @@ def main_cli():
 ###############################################################################
 
 def main():
-    # Display an "Initializing..." spinner right after the script starts
+    install_torch_if_missing()
+# Display an "Initializing..." spinner right after the script starts
     stop_event = threading.Event()
     loading_thread = threading.Thread(target=show_loading, args=("Initializing...", stop_event))
     loading_thread.start()
