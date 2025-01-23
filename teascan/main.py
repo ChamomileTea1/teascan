@@ -729,9 +729,9 @@ def main():
         sys.exit(1)
    
 # Display an "Initializing..." spinner right after the script starts
-    stop_event = threading.Event()
-    loading_thread = threading.Thread(target=show_loading, args=("Initializing...", stop_event))
-    loading_thread.start()
+     stop_event = threading.Event()
+     loading_thread = threading.Thread(target=show_loading, args=("Initializing...", stop_event))
+     loading_thread.start()
 
 
 
