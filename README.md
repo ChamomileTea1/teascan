@@ -11,6 +11,7 @@ This can be done by visiting [PyTorch.org](https://pytorch.org/get-started/local
 - Language: `Python`
 - Clatform: `CPU` (or a specific CUDA version like `cu118` if you wish to utilises your GPU)
 
+Please ensure your version of Python is compatible with PyTorch.
 Then run the suggested installation command, for example:
 pip install torch==2.5.1 torchvision==0.16.1 --index-url https://download.pytorch.org/whl/cpu
 =======================
