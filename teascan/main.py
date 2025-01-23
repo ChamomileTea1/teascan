@@ -13,14 +13,7 @@ import tempfile
 import time
 import threading
 import pkg_resources
-import torch  
-import torchvision
- 
-import torch.nn as nn
-import torch.nn.functional as F
 
-from torchvision import models, transforms
-from torchvision.models import ResNet18_Weights
 from PIL import Image
 
 
@@ -720,7 +713,20 @@ def main_cli():
 ###############################################################################
 
 def main():
-    
+     try:
+        import torch
+        import torchvision
+        import torch.nn as nn
+        import torch.nn.functional as F
+
+        from torchvision import models, transforms
+        from torchvision.models import ResNet18_Weights
+    except ImportError:
+        print(
+            "Failed to import torch or torchvision after installation.\n"
+            "Please ensure they are installed correctly."
+        )
+        sys.exit(1)
    
 # Display an "Initializing..." spinner right after the script starts
     stop_event = threading.Event()
