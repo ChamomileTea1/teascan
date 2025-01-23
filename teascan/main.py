@@ -379,6 +379,7 @@ def load_byteplot_model(ByteplotResNet):
     """
     Lazy load ByteplotResNet model.
     """
+    import torch
     if _loaded_resources['byteplot_model'] is None:
         try:
             byteplot_model = ByteplotResNet()
@@ -397,6 +398,7 @@ def load_bigram_model(BigramResNet):
     """
     Lazy load BigramResNet model.
     """
+    import torch
     if _loaded_resources['bigram_model'] is None:
         try:
             bigram_model = BigramResNet()
@@ -415,6 +417,7 @@ def load_apicalls_model(APICallsMLP, vectorizer):
     """
     Lazy load APICallsMLP model.
     """
+    import torch
     if _loaded_resources['apicalls_model'] is None:
         try:
             apicalls_model = APICallsMLP(input_dim=len(vectorizer.vocabulary_))
@@ -432,7 +435,9 @@ def load_apicalls_model(APICallsMLP, vectorizer):
 def load_fusion_model(FusionModel3):
     """
     Lazy load FusionModel3.
+    
     """
+    import torch
     if _loaded_resources['fusion_model'] is None:
         try:
             fusion_model = FusionModel3()
