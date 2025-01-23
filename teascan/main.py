@@ -35,10 +35,11 @@ def install_torch():
         try:
             subprocess.check_call([
                 sys.executable, "-m", "pip", "install",
-                "torch==2.5.1",
-                "torchvision==0.16.1",
-                "--index-url", "https://download.pytorch.org/whl/cpu"
+                "torch",
+                "torchvision",
+                "torchaudio"
             ])
+            
             print("Torch and torchvision installed successfully!")
         except subprocess.CalledProcessError:
             print(
