@@ -24,7 +24,88 @@ from sklearn.feature_extraction.text import CountVectorizer
 import cv2  # Ensure cv2 is installed: pip install opencv-python
 import pefile  # Ensure pefile is installed: pip install pefile
 
+def install_torch():
+    """
+    Attempts to install torch and torchvision.
+    """
+    try:
+        import torch
+    except ImportError:
+        print("Torch not found. Attempting to install torch and torchvision...")
+        try:
+            subprocess.check_call([
+                sys.executable, "-m", "pip", "install",
+                "torch==2.5.1",
+                "torchvision==0.16.1",
+                "--index-url", "https://download.pytorch.org/whl/cpu"
+            ])
+            print("Torch and torchvision installed successfully!")
+        except subprocess.CalledProcessError:
+            print(
+                "Failed to install torch and torchvision automatically.\n"
+                "Please install them manually using the instructions in the README.md."
+            )
+            sys.exit(1)
 
+def define_models():
+    """
+    Defines and returns torch-dependent classes.
+    """
+    import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+    from torchvision import models, transforms
+    from torchvision.models import ResNet18_Weights
+
+    class ByteplotResNet(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.resnet = models.resnet18(weights=ResNet18_Weights.DEFAULT)
+            in_feats = self.resnet.fc.in_features
+            self.resnet.fc = nn.Linear(in_feats, 1)
+
+        def forward(self, x):
+            return self.resnet(x)  # shape (B,1)
+
+    class BigramResNet(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.resnet = models.resnet18(weights=ResNet18_Weights.DEFAULT)
+            in_feats = self.resnet.fc.in_features
+            self.resnet.fc = nn.Linear(in_feats, 1)
+
+        def forward(self, x):
+            return self.resnet(x)  # shape (B,1)
+
+    class APICallsMLP(nn.Module):
+        def __init__(self, input_dim):
+            super().__init__()
+            self.fc1 = nn.Linear(input_dim, 128)
+            self.fc2 = nn.Linear(128, 64)
+            self.fc3 = nn.Linear(64, 1)
+
+        def forward(self, x):
+            x = F.relu(self.fc1(x))
+            x = F.relu(self.fc2(x))
+            return self.fc3(x)  # shape (B,1)
+
+    class FusionModel3(nn.Module):
+        """
+        Takes 3 inputs: byteplot_logit, api_logit, bigram_logit -> 1 logit
+        e.g. shape (B,3)->(B,1)
+        """
+
+        def __init__(self):
+            super().__init__()
+            self.fc1 = nn.Linear(3, 8)
+            self.fc2 = nn.Linear(8, 1)
+
+        def forward(self, x):
+            # x: shape (B,3)
+            x = F.relu(self.fc1(x))
+            return self.fc2(x)  # (B,1)
+
+    return ByteplotResNet, BigramResNet, APICallsMLP, FusionModel3
 def show_initializing_spinner():
     import itertools
     import time
@@ -105,60 +186,6 @@ def suppress_warnings_during_loading(func):
     return wrapper
 
 
-###############################################################################
-# Models Definition
-###############################################################################
-
-class ByteplotResNet(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.resnet = models.resnet18(weights=ResNet18_Weights.DEFAULT)
-        in_feats = self.resnet.fc.in_features
-        self.resnet.fc = nn.Linear(in_feats, 1)
-
-    def forward(self, x):
-        return self.resnet(x)  # shape (B,1)
-
-
-class BigramResNet(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.resnet = models.resnet18(weights=ResNet18_Weights.DEFAULT)
-        in_feats = self.resnet.fc.in_features
-        self.resnet.fc = nn.Linear(in_feats, 1)
-
-    def forward(self, x):
-        return self.resnet(x)  # shape (B,1)
-
-
-class APICallsMLP(nn.Module):
-    def __init__(self, input_dim):
-        super().__init__()
-        self.fc1 = nn.Linear(input_dim, 128)
-        self.fc2 = nn.Linear(128, 64)
-        self.fc3 = nn.Linear(64, 1)
-
-    def forward(self, x):
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        return self.fc3(x)  # shape (B,1)
-
-
-class FusionModel3(nn.Module):
-    """
-    Takes 3 inputs: byteplot_logit, api_logit, bigram_logit -> 1 logit
-    e.g. shape (B,3)->(B,1)
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.fc1 = nn.Linear(3, 8)
-        self.fc2 = nn.Linear(8, 1)
-
-    def forward(self, x):
-        # x: shape (B,3)
-        x = F.relu(self.fc1(x))
-        return self.fc2(x)  # (B,1)
 
 
 ###############################################################################
@@ -713,18 +740,14 @@ def main_cli():
 ###############################################################################
 
 def main():
-    try:
-        import torch
-        import torchvision
-        import torch.nn as nn
-        import torch.nn.functional as F
+    install_torch()
 
-        from torchvision import models, transforms
-        from torchvision.models import ResNet18_Weights
+    try:
+        ByteplotResNet, BigramResNet, APICallsMLP, FusionModel3 = define_models()
     except ImportError:
         print(
             "Failed to import torch or torchvision after installation.\n"
-            "Please ensure they are installed correctly."
+            "Please ensure they are installed correctly by following the instructions in the README.md."
         )
         sys.exit(1)
    
