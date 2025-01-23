@@ -713,7 +713,7 @@ def main_cli():
 ###############################################################################
 
 def main():
-     try:
+    try:
         import torch
         import torchvision
         import torch.nn as nn
@@ -721,7 +721,7 @@ def main():
 
         from torchvision import models, transforms
         from torchvision.models import ResNet18_Weights
-     except ImportError:
+    except ImportError:
         print(
             "Failed to import torch or torchvision after installation.\n"
             "Please ensure they are installed correctly."
@@ -729,9 +729,9 @@ def main():
         sys.exit(1)
    
 # Display an "Initializing..." spinner right after the script starts
-     stop_event = threading.Event()
-     loading_thread = threading.Thread(target=show_loading, args=("Initializing...", stop_event))
-     loading_thread.start()
+    stop_event = threading.Event()
+    loading_thread = threading.Thread(target=show_loading, args=("Initializing...", stop_event))
+    loading_thread.start()
 
 
 
