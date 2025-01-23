@@ -14,7 +14,7 @@ setup(
     },
     install_requires=[
         
-       
+        "setuptools>=58.0.0",
         "scikit-learn==1.6.0",
         "joblib==1.4.2",
         "opencv-python==4.10.0.84",
