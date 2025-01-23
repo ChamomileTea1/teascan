@@ -777,11 +777,7 @@ def main():
         stop_event.set()
         loading_thread.join()
 
-    print("TeaScan is initialized and running.")
-
-    # Continue with the rest of your application logic
-    # For example:
-    run_teascan(byteplot_model, bigram_model, apicalls_model, fusion_model)
+    
 
 
 
