@@ -721,7 +721,7 @@ def main():
 
         from torchvision import models, transforms
         from torchvision.models import ResNet18_Weights
-    except ImportError:
+     except ImportError:
         print(
             "Failed to import torch or torchvision after installation.\n"
             "Please ensure they are installed correctly."
