@@ -13,12 +13,9 @@ import tempfile
 import time
 import threading
 import pkg_resources
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
+
 from PIL import Image
-from torchvision import models, transforms
-from torchvision.models import ResNet18_Weights
+
 
 import numpy as np
 
@@ -39,6 +36,7 @@ def install_torch_if_missing():
             "--index-url", "https://download.pytorch.org/whl/cpu"
         ])
         import torch  # Re-import after installation
+        import torchvision
 
 def show_initializing_spinner():
     import itertools
@@ -729,6 +727,12 @@ def main_cli():
 
 def main():
     install_torch_if_missing()
+    import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+
+    from torchvision import models, transforms
+    from torchvision.models import ResNet18_Weights
 # Display an "Initializing..." spinner right after the script starts
     stop_event = threading.Event()
     loading_thread = threading.Thread(target=show_loading, args=("Initializing...", stop_event))
