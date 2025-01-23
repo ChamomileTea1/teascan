@@ -95,7 +95,6 @@ def define_models():
         Takes 3 inputs: byteplot_logit, api_logit, bigram_logit -> 1 logit
         e.g. shape (B,3)->(B,1)
         """
-
         def __init__(self):
             super().__init__()
             self.fc1 = nn.Linear(3, 8)
@@ -107,6 +106,7 @@ def define_models():
             return self.fc2(x)  # (B,1)
 
     return ByteplotResNet, BigramResNet, APICallsMLP, FusionModel3
+
 def show_initializing_spinner():
     import itertools
     import time
@@ -374,9 +374,8 @@ def load_vectorizer():
             sys.exit(1)
     return _loaded_resources['vectorizer']
 
-
 @suppress_warnings_during_loading
-def load_byteplot_model():
+def load_byteplot_model(ByteplotResNet):
     """
     Lazy load ByteplotResNet model.
     """
@@ -393,9 +392,8 @@ def load_byteplot_model():
             sys.exit(1)
     return _loaded_resources['byteplot_model']
 
-
 @suppress_warnings_during_loading
-def load_bigram_model():
+def load_bigram_model(BigramResNet):
     """
     Lazy load BigramResNet model.
     """
@@ -412,9 +410,8 @@ def load_bigram_model():
             sys.exit(1)
     return _loaded_resources['bigram_model']
 
-
 @suppress_warnings_during_loading
-def load_apicalls_model(vectorizer):
+def load_apicalls_model(APICallsMLP, vectorizer):
     """
     Lazy load APICallsMLP model.
     """
@@ -431,9 +428,8 @@ def load_apicalls_model(vectorizer):
             sys.exit(1)
     return _loaded_resources['apicalls_model']
 
-
 @suppress_warnings_during_loading
-def load_fusion_model():
+def load_fusion_model(FusionModel3):
     """
     Lazy load FusionModel3.
     """
@@ -741,6 +737,9 @@ def main_cli():
 ###############################################################################
 
 def main():
+    """
+    Main entry point of the application.
+    """
     install_torch()
 
     try:
@@ -751,22 +750,34 @@ def main():
             "Please ensure they are installed correctly by following the instructions in the README.md."
         )
         sys.exit(1)
-   
-# Display an "Initializing..." spinner right after the script starts
+
+    # Display an "Initializing..." spinner right after the script starts
     stop_event = threading.Event()
     loading_thread = threading.Thread(target=show_loading, args=("Initializing...", stop_event))
     loading_thread.start()
 
-
-
-
     try:
-        # Simulate initialization (e.g., load resources)
-        load_resources_with_spinner()  # This already contains a spinner for resource loading
+        # Load vectorizer first if needed
+        vectorizer = load_vectorizer()
+
+        # Load models by passing class objects
+        byteplot_model = load_byteplot_model(ByteplotResNet)
+        bigram_model = load_bigram_model(BigramResNet)
+        apicalls_model = load_apicalls_model(APICallsMLP, vectorizer)
+        fusion_model = load_fusion_model(FusionModel3)
+
+        # Simulate time-consuming initialization
+        time.sleep(3)  # Replace with actual initialization steps
     finally:
-        # Stop the spinner
         stop_event.set()
         loading_thread.join()
+
+    print("TeaScan is initialized and running.")
+
+    # Continue with the rest of your application logic
+    # For example:
+    run_teascan(byteplot_model, bigram_model, apicalls_model, fusion_model)
+
 
 
     # Display CLI art/title
