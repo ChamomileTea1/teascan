@@ -504,6 +504,9 @@ def classify_file(exe_path, virus_total_api_key=None):
     loading_thread = threading.Thread(target=show_loading, args=("Scanning...", stop_event))
     loading_thread.start()
     import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+    from torchvision import models, transforms
 
     try:
         # Validate file
