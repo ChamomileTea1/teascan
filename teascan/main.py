@@ -13,7 +13,14 @@ import tempfile
 import time
 import threading
 import pkg_resources
+import torch  
+import torchvision
+ 
+import torch.nn as nn
+import torch.nn.functional as F
 
+from torchvision import models, transforms
+from torchvision.models import ResNet18_Weights
 from PIL import Image
 
 
@@ -24,19 +31,6 @@ from sklearn.feature_extraction.text import CountVectorizer
 import cv2  # Ensure cv2 is installed: pip install opencv-python
 import pefile  # Ensure pefile is installed: pip install pefile
 
-def install_torch_if_missing():
-    try:
-        import torch
-    except ImportError:
-        print("Torch not found. Installing...")
-        subprocess.check_call([
-            sys.executable, "-m", "pip", "install",
-            "torch==2.5.1",
-            "torchvision==0.16.1",
-            "--index-url", "https://download.pytorch.org/whl/cpu"
-        ])
-        import torch  # Re-import after installation
-        import torchvision
 
 def show_initializing_spinner():
     import itertools
@@ -726,13 +720,8 @@ def main_cli():
 ###############################################################################
 
 def main():
-    install_torch_if_missing()
-    import torch
-    import torch.nn as nn
-    import torch.nn.functional as F
-
-    from torchvision import models, transforms
-    from torchvision.models import ResNet18_Weights
+    
+   
 # Display an "Initializing..." spinner right after the script starts
     stop_event = threading.Event()
     loading_thread = threading.Thread(target=show_loading, args=("Initializing...", stop_event))
