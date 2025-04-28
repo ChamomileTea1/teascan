@@ -4,7 +4,7 @@
 
 Due to the difficulties of ensuring compatible versions of torch and torch vision,
 which are required for the machine learning model, these should be installed manually, 
-although if they are no present the program will attempt to install them itself.
+although if they are not present the program will attempt to install them itself.
 
 PyTorch can be installed by visiting [PyTorch.org](https://pytorch.org/get-started/locally/) and selecting
 - Your OS (Windows, Linux, or macOS)
@@ -17,6 +17,7 @@ Then run the suggested installation command, for example:
     pip install torch torchvision
 
 **Please ensure your version of Python is compatible with PyTorch.**
+
 ====================================
 
 This tool classifies executable programs as Malware or Benign using machine learning models.
