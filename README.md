@@ -18,7 +18,12 @@ Then run the suggested installation command, for example:
 
 **Please ensure your version of Python is compatible with PyTorch.**
 
-====================================
+
+ - Alternatively, a precompiled executable can be found here (Large):
+
+https://drive.google.com/file/d/17d2MmzsqmZwTeLlSO-p0PuS5iWQlzw3_/view?usp=drive_link
+ 
+ ====================================
 
 This tool classifies executable programs as Malware or Benign using machine learning models.
 It provides additional information such as MD5 hashes and VirusTotal analysis results, if you provide your
